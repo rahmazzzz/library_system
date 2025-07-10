@@ -1,16 +1,44 @@
 from pydantic import BaseModel, Field
-from typing import Optional
-from bson import ObjectId
 
-class Person(BaseModel):
+
+# ------------- PERSON ----------------
+class PersonIn(BaseModel):
     name: str
     email: str
 
-class Book(BaseModel):
+
+class Person(PersonIn):
+    id: str = Field(alias="_id")
+
+    model_config = {
+        "validate_by_name": True
+    }
+
+
+# ------------- BOOK ----------------
+class BookIn(BaseModel):
     title: str
     author: str
     available: bool = True
 
-class Borrow(BaseModel):
-    person_id: str  # store as string, convert to ObjectId when querying
+
+class Book(BookIn):
+    id: str = Field(alias="_id")
+
+    model_config = {
+        "validate_by_name": True
+    }
+
+
+# ------------- BORROW ----------------
+class BorrowIn(BaseModel):
+    person_id: str
     book_id: str
+
+
+class Borrow(BorrowIn):
+    id: str = Field(alias="_id")
+
+    model_config = {
+        "validate_by_name": True
+    }
